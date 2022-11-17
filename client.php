@@ -58,16 +58,32 @@ $ctr = new controller();
                         </td>
                         <td>
                             <?php
+                            $arrTarget = $ctr->loadTargetBy($data['paramcode'], $_SESSION['marsha']);
+                            $color = "";
+                            $k = $arrTarget[1];
+                            $sp = $arrTarget[2];
+                            $p = $arrTarget[3];
+                            $u = $arrTarget[4];
+
+                            if ($data['score'] >= $k) {
+                                $color = 'gray';
+                            } else if($data['score'] >= $sp && $data['score'] < $k) {
+                                $color = 'green';
+                            } else if($data['score'] >= $p && $data['score'] < $sp){
+                                $color = '#e6b800';
+                            } else{
+                                $color = 'red';
+                            }
 
                             ?>
-                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['score']) ?>; --fg: red;"><?= $data['score'] ?>%</div>
+                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['score']) ?>; --fg: <?= $color ?>;"><?= $data['score'] ?>%</div>
                         </td>
                         <td>
-                        <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>"><?= $data['scorey'] ?>%</div>
+                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>"><?= $data['scorey'] ?>%</div>
                         </td>
                         <td>
-                        <div style="font-weight: bold;"><?= $data["target"]?>%</div>
-
+                            <div style="font-weight: bold;"><?= $data["target"] ?>%</div>
+                            
                         </td>
 
 
@@ -89,7 +105,7 @@ $ctr = new controller();
 <script src="sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swee17awatalert2@11"></script>
 <script>
-var elem = document.documentElement;
+    var elem = document.documentElement;
 </script>
 <?php
 if (isset($_POST['logoutBtn'])) {

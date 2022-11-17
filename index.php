@@ -36,7 +36,7 @@
                 <button type="submit" class="btn create-account" name="loginBtn">Login</button>
             </div>
             <div class="form-group">
-                <a href="/propertyChoose.php">Go to Client</a>
+                <a href="propertyChoose.php">Go to Client</a>
             </div>
 
         </form>

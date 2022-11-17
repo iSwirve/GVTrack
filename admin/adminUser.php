@@ -45,9 +45,9 @@ if ($_SESSION["loggedUser"]["role"] != "ADMIN") {
       <button name="logoutBtn" class="btn btn-danger" type="submit">Logout</button>
     </form>
   </nav>
-  <div class="container" >
+  <div class="container">
     <h2>User</h2>
-    
+
 
     <table class="table" style="width: 50%;float:left">
       <thead class="thead-light">
@@ -61,33 +61,84 @@ if ($_SESSION["loggedUser"]["role"] != "ADMIN") {
         </tr>
       </thead>
       <tbody>
-        
-          <?php 
-          $userArr = $ctr->loadUser();
-          $i = 1;
-          foreach ($userArr as $data) { ?>
-            <tr>
-            <td><?=$i?></td>
-            <td><?=$data['username']?></td>
-            <td><?=$data['password']?></td>
 
-            <td><?=$data['property']?></td>
+        <?php
+        $userArr = $ctr->loadUser();
+        $i = 1;
+        foreach ($userArr as $data) { 
+          if($_SESSION["loggedUser"] != $data){
+          ?>
+          <tr>
+            <td><?= $i ?></td>
+            <td><?= $data['username'] ?></td>
+            <td><?= $data['password'] ?></td>
+
+            <td><?= $data['property'] ?></td>
             <td>
-                <form method="post"><button class="btn btn-danger" name="<?=$data['username']?>">Settings</button></form>
-                </td>
+              <form method="post"><button class="btn btn-danger" name="<?= $data['username'] ?>">Settings</button></form>
+            </td>
 
           <?php
+          }
           $i++;
-         } ?>
-      </tr>
+        } ?>
+          </tr>
 
       </tbody>
     </table>
 
-    <div style="float: right;">aa</div>
+    <div style="float: right;">
+      <h2>Add User</h2>
+      <form method="post">
+        <table>
+          <th>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </th>
+          <tr>
+            <td>username</td>
+            <td><input type="text" name="userNew" id=""></td>
+
+          </tr>
+          <tr>
+            <td>password</td>
+            <td><input type="password" name="passNew" id=""></td>
+
+          </tr>
+          <tr>
+            <td>role</td>
+            <td><select name="access" id="">
+                <option value="CHAMP">CHAMPION</option>
+                <option value="ADMIN">ADMINISTRATOR</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td>property</td>
+            <td>
+            <select name="propertySelect" id="">
+                <?php
+                $dataProperty = $ctr->loadProperty();
+                foreach ($dataProperty as $data) {
+                    ?>
+                    <option value="<?=$data['marsha']?>"><?=$data['propertyname']?></option>
+                    <?php
+                }
+                ?>
+            </select>
+            </td>
+          </tr>
+        </table>
+
+
+        <button class="btn btn-success" name="createuserBtn">Buat user</button>
+      </form>
+
+    </div>
 
   </div>
-  
+
 </body>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -105,10 +156,20 @@ if (isset($_POST["logoutBtn"])) {
 // $userArr = $ctr->loadUser();
 
 foreach ($userArr as $data) {
-    $str = $data['username'];
-    if(isset($_POST[$str])){
-        alert($str);
-    }
+  $str = $data['username'];
+  if (isset($_POST[$str])) {
+    $_SESSION['updatingUser'] = $data;
+    header("Location: adminUserUpdate.php");
+  }
+}
+
+if (isset($_POST['createuserBtn'])) {
+  $userNew = $_POST["userNew"];
+  $passNew = $_POST["passNew"];
+  $role = $_POST['access'];
+  $marsha = $_POST['propertySelect'];
+
+  $ctr->createUser($userNew, $passNew, $role,$marsha);
 }
 ?>
 

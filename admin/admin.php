@@ -38,9 +38,6 @@ if ($_SESSION["loggedUser"]["role"] != "ADMIN") {
                 <li class="nav-item">
                     <a class="nav-link" href="adminParameter.php">Parameter</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
             </ul>
         </div>
         <form method="post">

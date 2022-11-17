@@ -4,10 +4,56 @@ require "func.php";
 
 class controller
 {
+
+    public function deleteUser($dataUser)
+    {
+    }
+
+    public function addTarget($dataTarget, $property)
+    {
+        require "connection.php";
+        $dataParam = $conn->query("SELECT * FROM parameters ORDER BY paramname asc")->fetch_all(MYSQLI_ASSOC);
+        foreach ($dataParam as $data) {
+            $param = $data['paramcode'];
+            $u = $dataTarget[$param]['u'];
+            $p = $dataTarget[$param]['p'];
+            $sp = $dataTarget[$param]['sp'];
+            $k = $dataTarget[$param]['k'];
+
+            $conn->query("INSERT INTO ktarget VALUES('$param',$k,$sp,$p,$u,'$property')");
+
+        }
+        swal("sukses", "Berhasil menambahkan target", "success");
+    }
+
+    public function createUser($usern, $passw, $role, $marsha)
+    {
+        require "connection.php";
+        if ($usern != "" && $passw != "") {
+            $users = $conn->query("SELECT * FROM users WHERE username = '$usern'")->fetch_all(MYSQLI_ASSOC);
+            if ($users != null) {
+                alert("User sudah ada");
+            } else {
+                if ($conn->query("INSERT INTO users VALUES('$usern', '$passw', '$role', '$marsha')")) {
+                    alert("User berhasil dibuat");
+                }
+            }
+        } else {
+            alert("Field tidak boleh kosong");
+        }
+    }
+
     public function loadProperty()
     {
         require "connection.php";
         return $conn->query("SELECT * FROM property")->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function loadTargetBy($paramcode,$marsha)
+    {
+        require "connection.php";
+        return $conn->query("SELECT * FROM ktarget WHERE marsha = '$marsha' AND paramcode = '$paramcode'")->fetch_row();
+        
     }
 
     public function loadUser()
@@ -25,7 +71,7 @@ class controller
     public function loadScore($marsha)
     {
         require "connection.php";
-        return $conn->query("SELECT parameters.paramname as paramname, gv.mtd as score, gv.ytd as scorey, gv.target as target FROM parameters,gv WHERE gv.paramcode = parameters.paramcode AND marsha = '$marsha'")->fetch_all(MYSQLI_ASSOC);
+        return $conn->query("SELECT parameters.paramcode as paramcode, parameters.paramname as paramname, gv.mtd as score, gv.ytd as scorey, gv.target as target FROM parameters,gv WHERE gv.paramcode = parameters.paramcode AND marsha = '$marsha'")->fetch_all(MYSQLI_ASSOC);
     }
 
     public function insertScore($dataScore, $marsha)

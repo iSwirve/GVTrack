@@ -65,7 +65,6 @@ if ($_SESSION["loggedUser"]["role"] != "CHAMP") {
 
                     <?php
                     $marsha = $_SESSION['loggedUser']['property'];
-                    alert($marsha);
                     $paramArr = $ctr->loadParam();
                     $paramScore = $ctr->loadScore($marsha);
                     $i = 0;
@@ -80,9 +79,7 @@ if ($_SESSION["loggedUser"]["role"] != "CHAMP") {
                             <td>
                                 <input type="text" name="<?= $data['paramcode'] ?>ytd" placeholder='ytd' id="">
                             </td>
-                            <td>
-                                <input type="text" name="<?= $data['paramcode'] ?>target" placeholder='target' id="">
-                            </td>
+
                             <td><?php if (isset($paramScore[$i]['score'])) {
                                     echo $paramScore[$i]['score'];
                                 } else {
@@ -100,10 +97,45 @@ if ($_SESSION["loggedUser"]["role"] != "CHAMP") {
                 </tbody>
             </table>
             <br>
-            <button class="btn btn-success" name="submitBtn">Submit</button>
-
+            <button class="btn btn-success" name="submitBtn">Submit</button> <br> <br><br>
+            <div style="width:100%; border : 1px solid black"></div>
 
         </form>
+        <br>
+
+        <h2>Target</h2>
+
+        <form method="post">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Parameter</th>
+                        <th scope="col">U</th>
+                        <th scope="col">P</th>
+                        <th scope="col">SP</th>
+                        <th scope="col">K</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($paramArr as $data) {
+                    ?>
+                        <tr>
+                            <td><?= $data['paramname'] ?></td>
+                            <td><input type="text" name="<?= $data['paramcode'] ?>u" id=""></td>
+                            <td><input type="text" name="<?= $data['paramcode'] ?>p" id=""></td>
+                            <td><input type="text" name="<?= $data['paramcode'] ?>sp" id=""></td>
+                            <td><input type="text" name="<?= $data['paramcode'] ?>k" id=""></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+                
+            </table>
+            <button class="btn btn-success" name="targetBtn">Submit target</button>
+        </form>
+         <br><br><br>
     </div>
 
 
@@ -131,7 +163,7 @@ if (isset($_POST['submitBtn'])) {
     foreach ($paramArr as $data) {
         $tbMtd = $_POST[$data['paramcode'] . 'mtd'];
         $tbYtd = $_POST[$data['paramcode'] . 'ytd'];
-        $tbTar = $_POST[$data['paramcode'] . 'target'];
+        $tbTar = 90;
 
         if ($tbMtd == '' || $tbYtd == "") {
             $ctr->swal("Input tidak valid", "Field tidak boleh kosong", "error");
@@ -141,18 +173,52 @@ if (isset($_POST['submitBtn'])) {
             $arrScore[$data['paramcode']] = array(
                 'mtd' => $tbMtd,
                 'ytd' => $tbYtd,
-                'target' => $tbTar
+                'target' => 90
             );
         }
     }
 
-    if(!$isFail)
-    {
+    if (!$isFail) {
         $property = $_SESSION["loggedUser"]["property"];
         $ctr->insertScore($arrScore, $property);
     }
-
 }
+
+if(isset($_POST['targetBtn']))
+{
+    $paramArr = $ctr->loadParam();
+    $arrTarget = array();
+    $isNull = false;
+    $marsha = $_SESSION["loggedUser"]["property"];
+    foreach($paramArr as $data)
+    {
+        $u = $_POST[$data['paramcode']."u"];
+        $p = $_POST[$data['paramcode']."p"];
+        $sp = $_POST[$data['paramcode']."sp"];
+        $k = $_POST[$data['paramcode']."k"];
+        if($u == "" && $p == "" && $sp == "" &&  $k == "")
+        {
+            $isNull = true;
+            break;
+        }
+        $arrTarget[$data['paramcode']] = array(
+            'u'=> $u,
+            'p' => $p,
+            'sp' => $sp,
+            'k' => $k
+        );
+    }   
+
+    if($isNull)
+    {
+        $ctr->swal("error", "Field tidak boleh kosong", "error");
+    }
+    else{
+        $ctr->addTarget($arrTarget, $marsha);
+    }
+}
+
+
 ?>
 
 </html>
