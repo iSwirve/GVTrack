@@ -60,16 +60,17 @@ $ctr = new controller();
                             <?php
                             $arrTarget = $ctr->loadTargetBy($data['paramcode'], $_SESSION['marsha']);
                             $color = "";
-                            $k = $arrTarget[1];
-                            $sp = $arrTarget[2];
-                            $p = $arrTarget[3];
-                            $u = $arrTarget[4];
-
-                            if ($data['score'] >= $k) {
+                            $k = (float) $arrTarget[1];
+                            $sp = (float) $arrTarget[2];
+                            $p = (float) $arrTarget[3];
+                            $u = (float) $arrTarget[4];
+                            $score = (float) $data['score'];
+                            alert($k);
+                            if (($score) >= $k) {
                                 $color = 'gray';
-                            } else if($data['score'] >= $sp && $data['score'] < $k) {
+                            } else if($score >= $sp && $score < $k) {
                                 $color = 'green';
-                            } else if($data['score'] >= $p && $data['score'] < $sp){
+                            } else if($score >= $p && $score < $sp){
                                 $color = '#e6b800';
                             } else{
                                 $color = 'red';

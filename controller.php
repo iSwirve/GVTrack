@@ -12,7 +12,9 @@ class controller
     public function addTarget($dataTarget, $property)
     {
         require "connection.php";
+        $conn->query("DELETE FROM ktarget WHERE marsha = '$property'");
         $dataParam = $conn->query("SELECT * FROM parameters ORDER BY paramname asc")->fetch_all(MYSQLI_ASSOC);
+        
         foreach ($dataParam as $data) {
             $param = $data['paramcode'];
             $u = $dataTarget[$param]['u'];
