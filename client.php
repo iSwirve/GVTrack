@@ -42,7 +42,7 @@ $ctr = new controller();
                     <th scope="col">Category</th>
                     <th scope="col">MTD</th>
                     <th scope="col">YTD</th>
-                    <th scope="col">Target</th>
+                    <th scope="col">K-Target</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,14 +65,13 @@ $ctr = new controller();
                             $p = (float) $arrTarget[3];
                             $u = (float) $arrTarget[4];
                             $score = (float) $data['score'];
-                            alert($k);
                             if (($score) >= $k) {
                                 $color = 'gray';
-                            } else if($score >= $sp && $score < $k) {
+                            } else if ($score >= $sp && $score < $k) {
                                 $color = 'green';
-                            } else if($score >= $p && $score < $sp){
+                            } else if ($score >= $p && $score < $sp) {
                                 $color = '#e6b800';
-                            } else{
+                            } else {
                                 $color = 'red';
                             }
 
@@ -80,11 +79,25 @@ $ctr = new controller();
                             <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['score']) ?>; --fg: <?= $color ?>;"><?= $data['score'] ?>%</div>
                         </td>
                         <td>
-                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>"><?= $data['scorey'] ?>%</div>
+                            <?php
+
+                            $score = (float) $data['scorey'];
+                            if (($score) >= $k) {
+                                $color = 'gray';
+                            } else if ($score >= $sp && $score < $k) {
+                                $color = 'green';
+                            } else if ($score >= $p && $score < $sp) {
+                                $color = '#e6b800';
+                            } else {
+                                $color = 'red';
+                            }
+
+                            ?>
+                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>; --fg: <?= $color ?>;"><?= $data['scorey'] ?>%</div>
                         </td>
                         <td>
-                            <div style="font-weight: bold;"><?= $data["target"] ?>%</div>
-                            
+                            <div style="font-weight: bold;"><?= $k ?>%</div>
+
                         </td>
 
 
