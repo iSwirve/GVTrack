@@ -54,7 +54,6 @@ $ctr = new controller();
                     <tr>
                         <td>
                             <?= $data['paramname'] ?>
-
                         </td>
                         <td>
                             <?php
@@ -70,13 +69,13 @@ $ctr = new controller();
                             } else if ($score >= $sp && $score < $k) {
                                 $color = 'green';
                             } else if ($score >= $p && $score < $sp) {
-                                $color = '#e6b800';
+                                $color = 'white';
                             } else {
                                 $color = 'red';
                             }
 
                             ?>
-                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['score']) ?>; --fg: <?= $color ?>;"><?= $data['score'] ?>%</div>
+                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['score']) ?>; --fg: <?= $color ?>;color:navy;"><?= $data['score'] ?>%</div>
                         </td>
                         <td>
                             <?php
@@ -87,13 +86,13 @@ $ctr = new controller();
                             } else if ($score >= $sp && $score < $k) {
                                 $color = 'green';
                             } else if ($score >= $p && $score < $sp) {
-                                $color = '#e6b800';
+                                $color = 'white';
                             } else {
                                 $color = 'red';
                             }
 
                             ?>
-                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>; --fg: <?= $color ?>;"><?= $data['scorey'] ?>%</div>
+                            <div role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="--value:<?= floor($data['scorey']) ?>; --fg: <?= $color ?>;color:navy;"><?= $data['scorey'] ?>%</div>
                         </td>
                         <td>
                             <div style="font-weight: bold;"><?= $k ?>%</div>

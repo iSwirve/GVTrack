@@ -306,7 +306,7 @@ input{
   div[role="progressbar"] {
     --size: 12rem;
     --fg: #369;
-    --bg: #def;
+    --bg: #4ebad7;
     --pgPercentage: var(--value);
     animation: growProgressBar 3s 1 forwards;
     width: 50px;
@@ -320,8 +320,9 @@ input{
       ;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 13px;
+    background-color: black;
     font-weight: bold;
-    color: var(--fg);
+    color:navy;
   }
   
   div[role="progressbar"]::before {
